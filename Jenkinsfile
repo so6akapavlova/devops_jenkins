@@ -17,10 +17,17 @@ node(){
 	stage 'run tests'
 		dir('source') {
             withMaven(maven: 'maven') {
+                sh 'mvn test'
+            }
+        }
+
+	stage 'build apps'
+		dir('source') {
+            withMaven(maven: 'maven') {
                 sh 'mvn package -Dmaven.test.skip=true'
             }
-            withDocker(docker: 'docker') {
-                withDockerServer([uri: 'tcp://docker.for.mac.host.internal']) {
+            docker.withTool('docker') {
+                withDockerServer([uri: 'tcp://docker.for.mac.host.internal:1234']) {
                     sh 'docker ps'
                 }
             }
