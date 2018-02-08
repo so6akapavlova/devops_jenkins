@@ -18,7 +18,7 @@ node(){
 		dir('source') {
             withMaven(maven: 'maven') {
                 sh 'mvn test > test.log'
-                archiveArtifacts './test.log'
+                archiveArtifacts 'test.log'
             }
         }
 
