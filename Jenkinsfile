@@ -18,8 +18,7 @@ node(){
 		dir('source') {
             withMaven(maven: 'maven') {
                 sh 'mvn test > test.log'
-                junit 'source/message-gateway/target/surefire-reports/*xml'
-
+                archiveArtifacts './test.log'
             }
         }
 
