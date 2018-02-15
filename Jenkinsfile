@@ -1,6 +1,8 @@
 #!groovy​
 
 node(){
+
+	def dockerServerAddress = "tcp://docker.for.mac.host.internal:1234"
 	stage 'hello'
 		println "Hello world, I am a Groovy script"
 
@@ -18,7 +20,7 @@ node(){
 		dir('source') {
             withMaven(maven: 'maven') {
                 sh 'mvn test > test.log'
-                archiveArtifacts 'test.log'
+                zip 'test.log'
             }
         }
 
@@ -28,7 +30,7 @@ node(){
                 sh 'mvn package -Dmaven.test.skip=true'
             }
             docker.withTool('docker') {
-                withDockerServer([uri: 'tcp://docker.for.mac.host.internal:1234']) {
+                withDockerServer([uri: dockerServerAddress]) {
                     sh 'docker ps'
                 }
             }

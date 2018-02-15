@@ -1,0 +1,4 @@
+FROM maven:3.2-jdk-7-onbuild
+COPY message-gateway/ /home/root/message-gateway
+WORKDIR /home/root/message-gateway
+CMD ["mvn tomcat7:run"]
