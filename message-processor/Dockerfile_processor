@@ -1,4 +1,4 @@
 FROM openjdk:7
 COPY . /home/root/message-processor
 WORKDIR /home/root/message-processor
-CMD ["java", "-jar", "target/message-processor-1.0-SNAPSHOT.jar", "etc/config.properties"]
+CMD java -jar target/message-processor-1.0-SNAPSHOT.jar etc/config.properties
