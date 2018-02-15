@@ -6,9 +6,9 @@ node(){
 	stage 'hello'
 		println "Hello world, I am a Groovy script"
 
-	stage 'created new folder'
+	stage 'preparations'
+		cleanWs()
 		dir('./source'){
-
 		}
 
 	stage 'get source codes from git'
