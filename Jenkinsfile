@@ -8,6 +8,15 @@ node(){
 
 	stage 'preparations'
 		cleanWs()
+		docker.withTool('docker'){
+			withDockerServer([uri: dockerServerAddress]){
+				sh 'docker rm -f rabbit'
+				sh 'docker rm -f processor'
+				sh 'docker rm -f gateway'
+				sh 'docker rmi sobakapavlova/gateway:v1'
+				sh 'docker rmi sobakapavlova/processor:v1'
+			}
+		}
 		dir('./source'){
 		}
 
@@ -31,7 +40,14 @@ node(){
             }
             docker.withTool('docker') {
                 withDockerServer([uri: dockerServerAddress]) {
+                    sh 'docker build -t sobakapavlova/processor:v1 -f source/message-processor/Dockerfile_processor source/message-processor/'
+                    sh 'docker build -t sobakapavlova/gateway:v1 -f source/message-gateway/Dockerfile_gateway source/message-gateway/'
+
+                    sh 'docker run -d --name rabbit rabbitmq'
+                    sh 'docker run -d --name processor sobakapavlova/processor:v1'
+                    sh 'docker run -d --name gateway sobakapavlova/gateway:v1'
                     sh 'docker ps'
+
                 }
             }
         }
