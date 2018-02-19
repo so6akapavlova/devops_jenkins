@@ -52,6 +52,7 @@ node(){
                     sh 'docker build -t sobakapavlova/gateway:v1 -f message-gateway/Dockerfile_gateway message-gateway/'
 
                     sh 'docker run -d --name rabbit rabbitmq'
+                    sleep 20
                     sh 'docker run -d --link rabbit --name processor sobakapavlova/processor:v1'
                     sh 'docker run -d --link rabbit --name gateway sobakapavlova/gateway:v1'
                     sh 'docker ps'
