@@ -13,10 +13,10 @@ node(){
 			withDockerServer([uri: dockerServerAddress]){
 				containers.each{ container ->
 					try {
-						sh 'docker rm -f ${container}'
+						sh "docker rm -f $container"
 					}
 					catch(exc){
-						println "${container} is always stopped"
+						println "$container is already stopped"
 					}
 
 				}
@@ -48,8 +48,8 @@ node(){
             }
             docker.withTool('docker') {
                 withDockerServer([uri: dockerServerAddress]) {
-                    sh 'docker build -t sobakapavlova/processor:v1 -f source/message-processor/Dockerfile_processor source/message-processor/'
-                    sh 'docker build -t sobakapavlova/gateway:v1 -f source/message-gateway/Dockerfile_gateway source/message-gateway/'
+                    sh 'docker build -t sobakapavlova/processor:v1 -f message-processor/Dockerfile_processor source/message-processor/'
+                    sh 'docker build -t sobakapavlova/gateway:v1 -f message-gateway/Dockerfile_gateway source/message-gateway/'
 
                     sh 'docker run -d --name rabbit rabbitmq'
                     sh 'docker run -d --name processor sobakapavlova/processor:v1'
