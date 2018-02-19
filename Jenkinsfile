@@ -48,8 +48,8 @@ node(){
             }
             docker.withTool('docker') {
                 withDockerServer([uri: dockerServerAddress]) {
-                    sh 'docker build -t sobakapavlova/processor:v1 -f message-processor/Dockerfile_processor source/message-processor/'
-                    sh 'docker build -t sobakapavlova/gateway:v1 -f message-gateway/Dockerfile_gateway source/message-gateway/'
+                    sh 'docker build -t sobakapavlova/processor:v1 -f message-processor/Dockerfile_processor message-processor/'
+                    sh 'docker build -t sobakapavlova/gateway:v1 -f message-gateway/Dockerfile_gateway message-gateway/'
 
                     sh 'docker run -d --name rabbit rabbitmq'
                     sh 'docker run -d --name processor sobakapavlova/processor:v1'
