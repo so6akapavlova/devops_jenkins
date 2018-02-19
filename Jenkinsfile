@@ -15,14 +15,14 @@ node(){
 					try {
 						sh 'docker rm -f ${container}'
 					}
-					catch{
+					catch(exc){
 						println "${container} is always stopped"
 					}
 
 				}
 
-				sh 'docker rmi sobakapavlova/gateway:v1'
-				sh 'docker rmi sobakapavlova/processor:v1'
+				// sh 'docker rmi sobakapavlova/gateway:v1'
+				// sh 'docker rmi sobakapavlova/processor:v1'
 			}
 		}
 		dir('./source'){
