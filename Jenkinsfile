@@ -13,7 +13,7 @@ node(){
 			withDockerServer([uri: dockerServerAddress]){
 				containers.each{ container ->
 					try {
-						sh "docker rm -f $container"
+						sh "docker rm -f $container; docker rmi sobakapavlova/$container:v1"
 					}
 					catch(exc){
 						println "$container is already stopped"
