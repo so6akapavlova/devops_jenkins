@@ -3,6 +3,7 @@
 node(){
 
 	def dockerServerAddress = "tcp://docker.for.mac.host.internal:1234"
+	def containers = ['rabbit', 'processor', 'gateway']
 	stage 'hello'
 		println "Hello world, I am a Groovy script"
 
@@ -10,9 +11,16 @@ node(){
 		cleanWs()
 		docker.withTool('docker'){
 			withDockerServer([uri: dockerServerAddress]){
-				sh 'docker rm -f rabbit'
-				sh 'docker rm -f processor'
-				sh 'docker rm -f gateway'
+				containers.each{ container ->
+					try {
+						sh 'docker rm -f ${container}'
+					}
+					catch{
+						println "${container} is always stopped"
+					}
+
+				}
+
 				sh 'docker rmi sobakapavlova/gateway:v1'
 				sh 'docker rmi sobakapavlova/processor:v1'
 			}
