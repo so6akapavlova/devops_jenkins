@@ -35,7 +35,8 @@ node(){
 		dir('source') {
             withMaven(maven: 'maven') {
                 sh 'mvn test > test.log'
-                zip zipFile: 'test.log'
+                zip zipFile: 'test.zip', glob: "test.log"
+                archiveArtifacts artifacts: 'test.zip'
             }
         }
 
