@@ -37,6 +37,7 @@ node(){
                 sh 'mvn test > test.log'
                 zip zipFile: 'test.zip', glob: 'test.log'
                 archiveArtifacts artifacts: 'test.zip'
+                sh "mvn clean"
             }
         }
 
