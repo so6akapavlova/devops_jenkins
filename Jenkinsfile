@@ -4,6 +4,7 @@ node(){
 
 	def dockerServerAddress = "tcp://docker.for.mac.host.internal:1234"
 	def containers = ['rabbit', 'processor', 'gateway']
+
 	stage 'hello'
 		println "Hello world, I am a Groovy script"
 
@@ -20,28 +21,25 @@ node(){
 					}
 
 				}
-
-				// sh 'docker rmi sobakapavlova/gateway:v1'
-				// sh 'docker rmi sobakapavlova/processor:v1'
 			}
 		}
 		dir('./source'){
 		}
 
-	stage 'get source codes from git'
+	stage 'get source code from git'
 		dir('./source') {
 			git branch: 'master', credentialsId: '104d7369-6ee9-4490-8891-6ef6f309d330', url: 'git@github.com:so6akapavlova/devops_jenkins.git'
-}
+		}
 
 	stage 'run tests'
 		dir('source') {
             withMaven(maven: 'maven') {
                 sh 'mvn test > test.log'
-                zip 'test.log'
+                zip zipFile: 'test.log'
             }
         }
 
-	stage 'build apps'
+	stage 'build'
 		dir('source') {
             withMaven(maven: 'maven') {
                 sh 'mvn package -Dmaven.test.skip=true'
