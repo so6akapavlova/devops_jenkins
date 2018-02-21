@@ -82,7 +82,8 @@ node(){
                     def fromProcessor = sh "docker logs --tail 1 processor"
                     println fromProcessor
                     index++
-                    assert (fromProcessor ==~ /Message: id=${index}.*/)
+                    println index
+                    assert (fromProcessor ==~ /^Message: id=${index}.*/)
                 }
 			}
 		}
