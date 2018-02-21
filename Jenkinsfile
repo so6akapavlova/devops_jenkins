@@ -80,8 +80,8 @@ node(){
                 withDockerServer([uri: dockerServerAddress]) {
                     sh "docker exec gateway ${test}"
                     def fromProcessor = sh(script:"docker logs --tail 1 processor", returnStdout: true)
-                    println fromProcessor
                     index++
+                    println fromProcessor.contains("id=${index}")
                     println (fromProcessor ==~ /^Message: id=${index}.*/)
                 }
 			}
