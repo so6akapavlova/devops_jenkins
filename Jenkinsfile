@@ -78,14 +78,14 @@ node(){
 		tests.eachWithIndex{ test, index ->
 			docker.withTool('docker') {
                 withDockerServer([uri: dockerServerAddress]) {
-                    sh "docker exec gateway ${test}"
+                    sh(script: "docker exec gateway ${test}", returnStdout: true)
                     def fromProcessor = sh "docker logs --tail 1 processor"
                     println fromProcessor
                     // index++
                     // println index
                     // def reg = "id=${index}"
                     // println reg
-                    fromProcessor.contains("id=${index}")
+                    println fromProcessor.contains("id=${index}")
                     println (fromProcessor ==~ /id=${index}/)
                 }
 			}
