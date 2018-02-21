@@ -60,13 +60,13 @@ node(){
                 }
             }
         }
-	stage 'create bin'
-	    def response = httpRequest( consoleLogResponseBody: true, 
-	                                httpMode: 'POST',
-	                                url: "https://requestbin.fullcontact.com/api/v1/bins",
-	                                validResponseCodes: '100:299').getContent()
+	// stage 'create bin'
+	//     def response = httpRequest( consoleLogResponseBody: true, 
+	//                                 httpMode: 'POST',
+	//                                 url: "https://requestbin.fullcontact.com/api/v1/bins",
+	//                                 validResponseCodes: '100:299').getContent()
 	    
-	    def binNum = new JsonSlurper().parseText(response).name.toString()
+	//     def binNum = new JsonSlurper().parseText(response).name.toString()
 
 	stage 'test the build'
 	sleep 40
@@ -85,7 +85,7 @@ node(){
                     println index
                     def reg = "^Message: id=${index}.*"
                     println reg
-                    println (fromProcessor =~ /${reg}/)
+                    println (fromProcessor ==~ /${reg}/)
                 }
 			}
 		}
