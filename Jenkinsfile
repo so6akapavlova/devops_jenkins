@@ -94,8 +94,8 @@ node(){
 	stage 'post report to the bin'
 	    httpRequest( consoleLogResponseBody: true, 
 	                 httpMode: 'POST',
-	                 url: "${binURI}/${binNum}",
+	                 url: "${binURL}/${binNum}",
 	                 requestBody: "$buildReport")
 	    
-	    echo "To see build report follow the link ${binURI}/${binNum}?inspect"
+	    echo "To see build report follow the link ${binURL}/${binNum}?inspect"
 }
