@@ -85,7 +85,7 @@ node(){
                     println index
                     def reg = "^Message: id=${index}.*"
                     println reg
-                    // assert (fromProcessor =~ /^Message: id=${index}.*/)
+                    println (fromProcessor =~ /${reg}/)
                 }
 			}
 		}
