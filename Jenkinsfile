@@ -74,12 +74,13 @@ node(){
                    'curl http://gate:8080/message -X POST -d \'{"messageId":3, "timestamp":3234, "protocolVersion":"2.0.0", "payload":{"mMX":1234, "mPermGen":5678, "mOldGen":22222, "mYoungGen":333333}}\'']
 
 
-		// tests.each{ test ->
-		// 	docker.withTool('docker') {
-  //               withDockerServer([uri: dockerServerAddress]) {
-  //                   sh "docker exec gateway ${test}"
-  //                   def fromProcessor = sh "docker logs --tail 1 processor"
-  //                   println fromProcessor
-  //               }
-		// }
+		tests.each{ test ->
+			docker.withTool('docker') {
+                withDockerServer([uri: dockerServerAddress]) {
+                    sh "docker exec gateway ${test}"
+                    def fromProcessor = sh "docker logs --tail 1 processor"
+                    println fromProcessor
+                }
+			}
+		}
 }
