@@ -83,7 +83,7 @@ node(){
                     println fromProcessor
                     index++
                     println index
-                    def reg = "^Message: id=${index}.*"
+                    def reg = "^Message: id=${index}*"
                     println reg
                     println (fromProcessor ==~ /${reg}/)
                 }
