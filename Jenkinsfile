@@ -29,7 +29,7 @@ node(){
 	stage 'get source code from git'
 		dir('./source') {
 			git branch: 'master', credentialsId: '104d7369-6ee9-4490-8891-6ef6f309d330', url: 'git@github.com:so6akapavlova/devops_jenkins.git'
-			buildReport += "Source code has beed checked out from git\n"
+			buildReport += "\nSource code has beed checked out from git\n\n"
 		}
 
 	stage 'run tests'
@@ -39,7 +39,7 @@ node(){
                 zip zipFile: 'test.zip', glob: 'test.log'
                 archiveArtifacts artifacts: 'test.zip'
                 sh "mvn clean"
-                buildReport += "Tests were passed, file with test logs was zipped, you can find it with other artifacts\n"
+                buildReport += "Tests were passed, file with test logs was zipped, you can find it with other artifacts\n\n"
             }
         }
 
@@ -58,7 +58,7 @@ node(){
                     sh 'docker run -d --link rabbit --name processor sobakapavlova/processor:v1'
                     sh 'docker run -d --link rabbit --name gateway sobakapavlova/gateway:v1'
                     sh 'docker ps'
-        buildReport += "The environment was assembled and containers were started\n"
+        buildReport += "The environment was built and containers were started\n\n"
                 }
             }
         }
@@ -85,10 +85,17 @@ node(){
                     def fromProcessor = sh(script:"docker logs --tail 1 processor", returnStdout: true)
                     index++
                     assert fromProcessor.contains("id=${index}")
-                    buildReport += "Test ${index}: fromProcessor\n"
+                    buildReport += "Test ${index}: ${fromProcessor}\n"
                 }
             buildReport += "SUCCESS! Ready to be pushed to the bin"
 			}
 		}
-	println buildReport
+
+	stage 'post report to the bin'
+	    httpRequest( consoleLogResponseBody: true, 
+	                 httpMode: 'POST',
+	                 url: "${binURI}/${binNum}",
+	                 requestBody: "$buildReport")
+	    
+	    echo "To see build report follow the link ${binURI}/${binNum}?inspect"
 }
