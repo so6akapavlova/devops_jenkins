@@ -81,12 +81,8 @@ node(){
                     sh "docker exec gateway ${test}"
                     def fromProcessor = sh(script:"docker logs --tail 1 processor", returnStdout: true)
                     println fromProcessor
-                    // index++
-                    // println index
-                    // def reg = "id=${index}"
-                    // println reg
-                    fromProcessor.contains("id=${index}")
-                    println (fromProcessor ==~ /id=${index}/)
+                    index++
+                    println (fromProcessor ==~ /^Message: id=${index}.*/)
                 }
 			}
 		}
